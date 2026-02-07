@@ -1,0 +1,1690 @@
+<index.html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 50 Soal - Timer 60 Menit - Kirim ke AKRIM</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+        }
+        
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+        
+        .whatsapp-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Timer Styles - Berjalan Otomatis */
+        .timer-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 3px solid #25D366;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        
+        .timer-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .timer {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ff6b6b;
+            font-family: 'Courier New', monospace;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .timer.warning {
+            color: #ff9e00;
+            animation: pulse 1s infinite;
+        }
+        
+        .timer.danger {
+            color: #ff4757;
+            animation: pulse 0.5s infinite;
+        }
+        
+        .main-content {
+            padding: 40px;
+        }
+        
+        .quiz-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid #dee2e6;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #25D366;
+        }
+        
+        .info-card h3 {
+            color: #128C7E;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .info-card p {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .instructions {
+            background: linear-gradient(135deg, #dcf8c6 0%, #fff 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 3px solid #25D366;
+        }
+        
+        .instructions h3 {
+            color: #128C7E;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        
+        .timer-notice {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .timer-notice strong {
+            color: #856404;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .user-data-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 2px solid #25D366;
+        }
+        
+        .user-data-section h3 {
+            color: #128C7E;
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .data-field {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .data-field label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 15px;
+        }
+        
+        .data-field input {
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .data-field input:focus {
+            outline: none;
+            border-color: #25D366;
+            box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.1);
+        }
+        
+        .quiz-navigation {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-btn {
+            padding: 12px 25px;
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .page-indicator {
+            font-weight: 700;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .quiz-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 1100px) {
+            .quiz-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border: 2px solid #e9ecef;
+            position: relative;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: #25D366;
+            border-radius: 15px 0 0 15px;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .question-number {
+            background: #25D366;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .question-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .question-category {
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #128C7E;
+            color: white;
+        }
+        
+        .question-text {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            color: #333;
+            padding: 0 10px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 18px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .option:hover {
+            background-color: #f8f9fa;
+            border-color: #25D366;
+        }
+        
+        .option.selected {
+            border-color: #25D366;
+            background-color: #dcf8c6;
+        }
+        
+        .option-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            font-weight: 600;
+            margin-right: 20px;
+            flex-shrink: 0;
+            color: #555;
+            font-size: 16px;
+        }
+        
+        .option.selected .option-label {
+            background-color: #25D366;
+            color: white;
+        }
+        
+        .option-text {
+            flex-grow: 1;
+            font-size: 16px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 18px 35px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 220px;
+            justify-content: center;
+        }
+        
+        #submitBtn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+        }
+        
+        #submitBtn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+        }
+        
+        #whatsappBtn {
+            background: linear-gradient(135deg, #25D366 0%, #075E54 100%);
+            color: white;
+        }
+        
+        #whatsappBtn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+        }
+        
+        #resetBtn {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+        
+        #resetBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.3);
+        }
+        
+        .action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        .results-section {
+            padding: 40px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            margin-top: 40px;
+            display: none;
+        }
+        
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .results-header h2 {
+            color: #128C7E;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .score-display {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 3px solid #25D366;
+        }
+        
+        .score-value {
+            font-size: 72px;
+            font-weight: 900;
+            color: #25D366;
+            margin: 20px 0;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .score-details {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .progress-container {
+            margin: 30px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background-color: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 2px solid #dee2e6;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            border-radius: 13px;
+            transition: width 1.5s ease-in-out;
+        }
+        
+        .subject-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .subject-stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid;
+        }
+        
+        .subject-stat-card h4 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .subject-stat-card .score {
+            font-size: 28px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .whatsapp-results {
+            background: linear-gradient(135deg, #dcf8c6 0%, #fff 100%);
+            padding: 35px;
+            border-radius: 20px;
+            margin-top: 40px;
+            border: 3px solid #25D366;
+        }
+        
+        .whatsapp-results h3 {
+            color: #075E54;
+            margin-bottom: 25px;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .whatsapp-message-container {
+            margin: 25px 0;
+        }
+        
+        #whatsappMessage {
+            width: 100%;
+            height: 250px;
+            padding: 25px;
+            border: 3px solid #25D366;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            background: white;
+            resize: vertical;
+            line-height: 1.6;
+        }
+        
+        .whatsapp-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .whatsapp-action-btn {
+            padding: 18px 35px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            justify-content: center;
+        }
+        
+        #sendWhatsAppBtn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+        }
+        
+        #sendWhatsAppBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+        }
+        
+        #copyWhatsAppBtn {
+            background: linear-gradient(135deg, #0088cc 0%, #005580 100%);
+            color: white;
+        }
+        
+        #copyWhatsAppBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.3);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 2px solid #dee2e6;
+        }
+        
+        .time-up-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            animation: modalAppear 0.5s ease-out;
+        }
+        
+        @keyframes modalAppear {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal-content h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+        
+        .modal-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        
+        .modal-btn {
+            padding: 15px 40px;
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+        
+        .time-info {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .time-info strong {
+            color: #856404;
+        }
+        
+        .auto-start-notice {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            animation: slideUp 0.5s ease-out;
+            z-index: 1001;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Timer yang berjalan otomatis -->
+    <div class="timer-container" id="timerContainer">
+        <div class="timer-label">
+            <span>⏰</span> WAKTU:
+        </div>
+        <div class="timer" id="timerDisplay">60:00</div>
+    </div>
+    
+    <!-- Notifikasi timer berjalan -->
+    <div class="auto-start-notice" id="autoStartNotice">
+        ⏰ Timer sedang berjalan: <span id="timerNotice">60:00</span>
+    </div>
+    
+    <!-- Modal Waktu Habis -->
+    <div class="time-up-modal" id="timeUpModal">
+        <div class="modal-content">
+            <h2>⏰ WAKTU SUDAH HABIS!</h2>
+            <p>Waktu pengerjaan quiz 60 menit telah berakhir.</p>
+            <p>Quiz akan dikumpulkan secara otomatis.</p>
+            <div class="time-info">
+                <strong>Info:</strong> Hasil quiz dapat dikirim ke WhatsApp AKRIM (085754227370)
+            </div>
+            <button class="modal-btn" onclick="autoSubmitQuiz()">TAMPILKAN HASIL</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>QUIZ 50 SOAL LENGKAP</h1>
+            <p class="subtitle">Timer 60 Menit BERJALAN OTOMATIS + Kirim Hasil ke WhatsApp</p>
+            <div class="whatsapp-contact">
+                <span>📱</span>
+                Kirim ke: <strong>AKRIM</strong> (085754227370)
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="quiz-info-grid">
+                <div class="info-card">
+                    <h3>Total Soal</h3>
+                    <p id="totalQuestions">50 Soal</p>
+                </div>
+                <div class="info-card">
+                    <h3>Waktu Pengerjaan</h3>
+                    <p>60 Menit</p>
+                </div>
+                <div class="info-card">
+                    <h3>Skor Maksimal</h3>
+                    <p id="maxScore">1000 Poin</p>
+                </div>
+                <div class="info-card">
+                    <h3>WhatsApp Tujuan</h3>
+                    <p>AKRIM<br><small>085754227370</small></p>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3><span>📋</span> PETUNJUK PENGERJAAN</h3>
+                <ul>
+                    <li><strong>Timer 60 menit berjalan OTOMATIS</strong> sejak halaman dimuat</li>
+                    <li>Isi <strong>data diri lengkap</strong> sebelum memulai mengerjakan</li>
+                    <li>Quiz terdiri dari <strong>50 soal campuran</strong> 5 mata pelajaran</li>
+                    <li>Pilih <strong>satu jawaban</strong> yang paling tepat</li>
+                    <li>Waktu akan habis secara otomatis setelah 60 menit</li>
+                    <li>Hasil dapat dikirim ke WhatsApp: <strong>AKRIM (085754227370)</strong></li>
+                </ul>
+                <div class="timer-notice">
+                    <strong>⚠️ TIMER SEDANG BERJALAN!</strong> Waktu terus berkurang. Kerjakan dengan cepat dan tepat.
+                </div>
+            </div>
+            
+            <div class="user-data-section">
+                <h3><span>👤</span> DATA DIRI SISWA</h3>
+                <div class="data-grid">
+                    <div class="data-field">
+                        <label for="studentName">Nama Lengkap</label>
+                        <input type="text" id="studentName" placeholder="Masukkan nama lengkap Anda" required>
+                    </div>
+                    <div class="data-field">
+                        <label for="studentClass">Kelas</label>
+                        <input type="text" id="studentClass" placeholder="Contoh: IX-A / 9A" required>
+                    </div>
+                    <div class="data-field">
+                        <label for="studentNumber">Nomor Absen</label>
+                        <input type="number" id="studentNumber" placeholder="Nomor urut absen" required>
+                    </div>
+                    <div class="data-field">
+                        <label for="studentDate">Tanggal Pengerjaan</label>
+                        <input type="text" id="studentDate" readonly>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quiz-navigation">
+                <button class="nav-btn" id="prevPageBtn" disabled>
+                    <span>←</span> Sebelumnya
+                </button>
+                <div class="page-indicator" id="pageInfo">Halaman 1 dari 5</div>
+                <button class="nav-btn" id="nextPageBtn">
+                    Selanjutnya <span>→</span>
+                </button>
+            </div>
+            
+            <div class="quiz-container" id="quizContainer">
+                <!-- Soal-soal akan dimasukkan melalui JavaScript -->
+            </div>
+            
+            <div class="quiz-navigation">
+                <button class="nav-btn" id="prevPageBtn2" disabled>
+                    <span>←</span> Sebelumnya
+                </button>
+                <div class="page-indicator" id="pageInfo2">Halaman 1 dari 5</div>
+                <button class="nav-btn" id="nextPageBtn2">
+                    Selanjutnya <span>→</span>
+                </button>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn" id="submitBtn">
+                    <span>📊</span> Kumpulkan Quiz
+                </button>
+                <button class="action-btn" id="whatsappBtn" disabled>
+                    <span>📱</span> Kirim ke WhatsApp
+                </button>
+                <button class="action-btn" id="resetBtn">
+                    <span>🔄</span> Ulangi Quiz
+                </button>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <div class="results-header">
+                    <h2>📊 HASIL QUIZ ANDA</h2>
+                    <p style="color: #666; margin-top: 10px;">Waktu pengerjaan: <span id="timeTaken">0 menit</span></p>
+                </div>
+                
+                <div class="score-display">
+                    <div class="score-value" id="scoreDisplay">0/1000</div>
+                    <div class="score-details" id="scoreDetails"></div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="subject-stats" id="subjectStats">
+                        <!-- Statistik per mata pelajaran akan diisi oleh JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="whatsapp-results">
+                    <h3><span>📱</span> KIRIM HASIL KE WHATSAPP AKRIM</h3>
+                    
+                    <div class="whatsapp-message-container">
+                        <label style="display: block; margin-bottom: 15px; font-weight: bold; color: #075E54; font-size: 16px;">
+                            Pesan WhatsApp (Hasil Quiz):
+                        </label>
+                        <textarea id="whatsappMessage" readonly></textarea>
+                    </div>
+                    
+                    <div class="whatsapp-actions">
+                        <button class="whatsapp-action-btn" id="sendWhatsAppBtn">
+                            <span>📱</span> Kirim ke WhatsApp AKRIM
+                        </button>
+                        <button class="whatsapp-action-btn" id="copyWhatsAppBtn">
+                            <span>📋</span> Copy untuk WhatsApp
+                        </button>
+                    </div>
+                    
+                    <div class="time-info" style="margin-top: 25px;">
+                        <strong>📝 Catatan:</strong> Pastikan nomor <strong>085754227370 (AKRIM)</strong> sudah tersimpan di kontak WhatsApp Anda. 
+                        Jika WhatsApp tidak terbuka otomatis, salin pesan di atas dan kirim manual.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Quiz Campuran 5 Mata Pelajaran</strong> &copy; 2025</p>
+            <p>WhatsApp: <strong>AKRIM (085754227370)</strong> | Timer: 60 Menit (BERJALAN) | Total 50 Soal</p>
+            <p style="margin-top: 10px; font-size: 12px; color: #888;">
+                *Timer berjalan otomatis sejak halaman dimuat. Hasil akan dikumpulkan otomatis saat waktu habis.
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Data 50 soal campuran
+        const quizData = [
+            // Fisika (10 soal)
+            { question: "Dua muatan +4 μC dan -9 μC terpisah 3 cm. Gaya Coulomb?", options: ["36 N", "90 N", "180 N", "360 N", "720 N"], correctAnswer: 3, explanation: "F = k|q1q2|/r² = 360 N", category: "Fisika", subject: "fisika" },
+            { question: "Benda positif didekatkan bola konduktor netral...", options: ["Tetap netral", "Positif dekat, negatif jauh", "Negatif dekat, positif jauh", "Seluruhnya positif", "Seluruhnya negatif"], correctAnswer: 2, explanation: "Induksi: elektron tertarik ke dekat (negatif)", category: "Fisika", subject: "fisika" },
+            { question: "Jarak dijadikan 2x, gaya Coulomb menjadi?", options: ["2x", "4x", "1/2x", "1/4x", "Tetap"], correctAnswer: 3, explanation: "F ∝ 1/r² → jadi 1/4x", category: "Fisika", subject: "fisika" },
+            { question: "Kaca digosok sutra jadi positif karena?", options: ["Proton ke sutra", "Elektron ke sutra", "Proton dari sutra", "Elektron dari sutra", "Muatan + dari sutra"], correctAnswer: 1, explanation: "Elektron pindah ke sutra", category: "Fisika", subject: "fisika" },
+            { question: "Kapasitor 200 cm², jarak 2 mm, kapasitas?", options: ["8,85×10⁻¹² F", "8,85×10⁻¹¹ F", "8,85×10⁻¹⁰ F", "8,85×10⁻⁹ F", "8,85×10⁻⁸ F"], correctAnswer: 1, explanation: "C = ε₀A/d = 8,85×10⁻¹¹ F", category: "Fisika", subject: "fisika" },
+            { question: "Di tengah muatan sama besar berlawanan, medan listrik?", options: ["Nol", "Ke positif", "Ke negatif", "Jumlah", "Selisih"], correctAnswer: 3, explanation: "Medan searah, dijumlahkan", category: "Fisika", subject: "fisika" },
+            { question: "Agar gaya Coulomb 4x, jarak jadi?", options: ["1/4 r", "1/2 r", "r", "2r", "4r"], correctAnswer: 1, explanation: "F ∝ 1/r² → 1/(r/2)² = 4/r²", category: "Fisika", subject: "fisika" },
+            { question: "Bola konduktor bermuatan, potensial di pusat?", options: ["Nol", "Sama permukaan", "Tak hingga", "1/2 permukaan", "2x permukaan"], correctAnswer: 1, explanation: "Di dalam bola, potensial konstan", category: "Fisika", subject: "fisika" },
+            { question: "Muatan 5 μC di medan 200 N/C, gaya?", options: ["10⁻³ N", "10⁻² N", "0,1 N", "1 N", "10 N"], correctAnswer: 0, explanation: "F = qE = 10⁻³ N", category: "Fisika", subject: "fisika" },
+            { question: "Kapasitor 3 μF dan 6 μF seri, kapasitas pengganti?", options: ["1,5 μF", "2 μF", "3 μF", "4,5 μF", "9 μF"], correctAnswer: 1, explanation: "1/C = 1/3 + 1/6 = 1/2 → C = 2 μF", category: "Fisika", subject: "fisika" },
+            
+            // Matematika (10 soal)
+            { question: "3² + 4² = ?", options: ["7", "12", "25", "49", "81"], correctAnswer: 2, explanation: "9 + 16 = 25", category: "Matematika", subject: "matematika" },
+            { question: "2x + 5 = 15, x = ?", options: ["3", "5", "6", "7", "10"], correctAnswer: 1, explanation: "2x = 10 → x = 5", category: "Matematika", subject: "matematika" },
+            { question: "3a + 2b - a + 4b = ?", options: ["2a+6b", "4a+2b", "2a+2b", "4a+6b", "3a+6b"], correctAnswer: 0, explanation: "2a + 6b", category: "Matematika", subject: "matematika" },
+            { question: "Luas persegi sisi 7 cm?", options: ["14 cm²", "28 cm²", "42 cm²", "49 cm²", "56 cm²"], correctAnswer: 3, explanation: "7×7 = 49 cm²", category: "Matematika", subject: "matematika" },
+            { question: "0,75 + 0,25 = ?", options: ["0,5", "1,0", "1,5", "2,0", "2,5"], correctAnswer: 1, explanation: "0,75 + 0,25 = 1,00", category: "Matematika", subject: "matematika" },
+            { question: "KPK 12 dan 18?", options: ["18", "24", "36", "48", "72"], correctAnswer: 2, explanation: "KPK = 36", category: "Matematika", subject: "matematika" },
+            { question: "FPB 24 dan 36?", options: ["6", "8", "12", "18", "24"], correctAnswer: 2, explanation: "FPB = 12", category: "Matematika", subject: "matematika" },
+            { question: "Bilangan prima 10-20?", options: ["11,13,17", "11,13,17,19", "11,13,15,17", "13,15,17,19", "11,12,13,17"], correctAnswer: 1, explanation: "11, 13, 17, 19", category: "Matematika", subject: "matematika" },
+            { question: "√144 = ?", options: ["10", "11", "12", "13", "14"], correctAnswer: 2, explanation: "12×12 = 144", category: "Matematika", subject: "matematika" },
+            { question: "30% dari 200?", options: ["30", "40", "50", "60", "70"], correctAnswer: 3, explanation: "30% × 200 = 60", category: "Matematika", subject: "matematika" },
+            
+            // IPS (10 soal)
+            { question: "Ibu kota Jawa Timur?", options: ["Semarang", "Surabaya", "Malang", "Sidoarjo", "Madiun"], correctAnswer: 1, explanation: "Surabaya", category: "IPS", subject: "ips" },
+            { question: "BPUPKI dibentuk?", options: ["1 Maret 1945", "29 April 1945", "1 Juni 1945", "22 Juni 1945", "7 Agustus 1945"], correctAnswer: 1, explanation: "29 April 1945", category: "IPS", subject: "ips" },
+            { question: "Penjajahan Belanda berlangsung?", options: ["100 tahun", "200 tahun", "300 tahun", "350 tahun", "400 tahun"], correctAnswer: 3, explanation: "Sekitar 350 tahun", category: "IPS", subject: "ips" },
+            { question: "Lagu kebangsaan Indonesia?", options: ["Bagimu Negeri", "Indonesia Pusaka", "Indonesia Raya", "Halo-halo Bandung", "Rayuan Pulau Kelapa"], correctAnswer: 2, explanation: "Indonesia Raya", category: "IPS", subject: "ips" },
+            { question: "Pahlawan Aceh?", options: ["Diponegoro", "Imam Bonjol", "Cut Nyak Dien", "Hasanuddin", "Patimura"], correctAnswer: 2, explanation: "Cut Nyak Dien", category: "IPS", subject: "ips" },
+            { question: "Bentuk negara Indonesia?", options: ["Kerajaan", "Republik", "Kesultanan", "Persemakmuran", "Federasi"], correctAnswer: 1, explanation: "Republik", category: "IPS", subject: "ips" },
+            { question: "Warna bendera Indonesia?", options: ["Merah-Putih", "Merah-Putih-Biru", "Hijau-Putih-Merah", "Merah-Kuning-Hijau", "Putih-Biru-Merah"], correctAnswer: 0, explanation: "Merah-Putih", category: "IPS", subject: "ips" },
+            { question: "Lembaga buat UU?", options: ["DPR", "MPR", "Presiden", "MA", "MK"], correctAnswer: 0, explanation: "DPR", category: "IPS", subject: "ips" },
+            { question: "Hari Kemerdekaan?", options: ["10 Nov", "1 Juni", "17 Agustus", "28 Okt", "20 Mei"], correctAnswer: 2, explanation: "17 Agustus", category: "IPS", subject: "ips" },
+            { question: "Mata uang Indonesia?", options: ["Ringgit", "Dollar", "Rupiah", "Yen", "Peso"], correctAnswer: 2, explanation: "Rupiah", category: "IPS", subject: "ips" },
+            
+            // Bahasa Inggris (10 soal)
+            { question: "English for 'buku'?", options: ["Pen", "Book", "Table", "Chair", "Bag"], correctAnswer: 1, explanation: "Book", category: "Bahasa Inggris", subject: "bing" },
+            { question: "I ... a student.", options: ["am", "is", "are", "be", "being"], correctAnswer: 0, explanation: "I am", category: "Bahasa Inggris", subject: "bing" },
+            { question: "Plural of 'child'?", options: ["Childs", "Children", "Childes", "Childrens", "Child"], correctAnswer: 1, explanation: "Children", category: "Bahasa Inggris", subject: "bing" },
+            { question: "She ... to school every day.", options: ["go", "goes", "going", "went", "gone"], correctAnswer: 1, explanation: "She goes", category: "Bahasa Inggris", subject: "bing" },
+            { question: "Opposite of 'big'?", options: ["Large", "Huge", "Small", "Tall", "Wide"], correctAnswer: 2, explanation: "Small", category: "Bahasa Inggris", subject: "bing" },
+            { question: "Yesterday, I ... a movie.", options: ["watch", "watches", "watching", "watched", "watchs"], correctAnswer: 3, explanation: "watched (past)", category: "Bahasa Inggris", subject: "bing" },
+            { question: "How are you? - I'm ...", options: ["Fine", "Five", "Fire", "Fight", "Food"], correctAnswer: 0, explanation: "I'm fine", category: "Bahasa Inggris", subject: "bing" },
+            { question: "Color between green and violet?", options: ["Red", "Orange", "Yellow", "Blue", "Indigo"], correctAnswer: 4, explanation: "Indigo (ROYGBIV)", category: "Bahasa Inggris", subject: "bing" },
+            { question: "This is ... apple.", options: ["a", "an", "the", "some", "any"], correctAnswer: 1, explanation: "an apple", category: "Bahasa Inggris", subject: "bing" },
+            { question: "What time is it? - It's ... o'clock.", options: ["two", "second", "twice", "twelfth", "twenty"], correctAnswer: 0, explanation: "two o'clock", category: "Bahasa Inggris", subject: "bing" },
+            
+            // Bahasa Indonesia (10 soal)
+            { question: "Kata tanya untuk alasan?", options: ["Apa", "Siapa", "Mengapa", "Bagaimana", "Kapan"], correctAnswer: 2, explanation: "Mengapa", category: "Bahasa Indonesia", subject: "bind" },
+            { question: "Sinonim 'besar'?", options: ["Kecil", "Tinggi", "Lebar", "Luas", "Banyak"], correctAnswer: 3, explanation: "Luas", category: "Bahasa Indonesia", subject: "bind" },
+            { question: "Antonim 'panas'?", options: ["Hangat", "Dingin", "Sebatik", "Lembab", "Kering"], correctAnswer: 1, explanation: "Dingin", category: "Bahasa Indonesia", subject: "bind" },
+            { question: "Kalimat kapital benar?", options: ["saya ke sekolah", "Saya ke Sekolah", "saya Pergi sekolah", "Saya ke sekolah", "SAYA KE SEKOLAH"], correctAnswer: 3, explanation: "Saya ke sekolah", category: "Bahasa Indonesia", subject: "bind" },
+            { question: "Imbuhan 'me-' termasuk?", options: ["Awalan", "Akhiran", "Sisipan", "Awalan-akhiran", "Konfiks"], correctAnswer: 0, explanation: "Awalan", category: "Bahasa Indonesia", subject: "bind" },
+            { question: "Penulisan 'rumahsakit'?", options: ["Rumah-sakit", "Rumah sakit", "Rumahsakit", "Rumah Sakit", "rumah sakit"], correctAnswer: 3, explanation: "Rumah Sakit", category: "Bahasa Indonesia", subject: "bind" },
+            { question: "Tanda baca kalimat berita?", options: ["?", ".", "!", ",", ":"], correctAnswer: 1, explanation: "Titik (.)", category: "Bahasa Indonesia", subject: "bind" },
+            { question: "Kata ganti orang pertama?", options: ["Kamu", "Dia", "Saya", "Kita", "Mereka"], correctAnswer: 2, explanation: "Saya/aku", category: "Bahasa Indonesia", subject: "bind" },
+            { question: "Lawan kata 'murah'?", options: ["Gratis", "Hemat", "Mahal", "Murah", "Sedikit"], correctAnswer: 2, explanation: "Mahal", category: "Bahasa Indonesia", subject: "bind" },
+            { question: "Tanda baca kalimat tanya?", options: [".", ",", "?", "!", ":"], correctAnswer: 2, explanation: "Tanda tanya (?)", category: "Bahasa Indonesia", subject: "bind" }
+        ];
+
+        // Acak soal
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Inisialisasi variabel
+        let userAnswers = new Array(quizData.length).fill(null);
+        let quizSubmitted = false;
+        let currentPage = 1;
+        const questionsPerPage = 10;
+        const totalPages = Math.ceil(quizData.length / questionsPerPage);
+        const whatsappNumber = "085754227370";
+        const whatsappName = "AKRIM";
+        
+        // Timer variables - TIMER BERJALAN OTOMATIS
+        let totalTime = 60 * 60; // 60 menit dalam detik
+        let timeLeft = totalTime;
+        let timerInterval = null;
+        let quizStarted = true; // Langsung mulai
+        let startTime = new Date();
+        let endTime = null;
+
+        // =================== FUNGSI TIMER YANG BERJALAN OTOMATIS ===================
+        
+        // Fungsi untuk memulai timer OTOMATIS
+        function startTimerAuto() {
+            // Cek waktu tersisa di localStorage
+            const savedTime = localStorage.getItem('quizTimeLeftAuto');
+            const savedStartTime = localStorage.getItem('quizStartTime');
+            
+            if (savedTime && savedStartTime) {
+                // Hitung waktu yang sudah berlalu sejak quiz dimulai
+                const elapsedSeconds = Math.floor((new Date() - new Date(savedStartTime)) / 1000);
+                timeLeft = parseInt(savedTime) - elapsedSeconds;
+                
+                if (timeLeft <= 0) {
+                    timeLeft = 0;
+                    timeUp();
+                    return;
+                }
+            } else {
+                // Simpan waktu mulai baru
+                localStorage.setItem('quizStartTime', new Date().toISOString());
+                localStorage.setItem('quizTimeLeftAuto', totalTime);
+            }
+            
+            // Mulai interval timer
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            // Update display segera
+            updateTimer();
+            
+            // Tampilkan notifikasi timer berjalan
+            document.getElementById('autoStartNotice').style.display = 'block';
+            
+            // Sembunyikan notifikasi setelah 5 detik
+            setTimeout(() => {
+                document.getElementById('autoStartNotice').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('autoStartNotice').style.display = 'none';
+                    document.getElementById('autoStartNotice').style.opacity = '1';
+                }, 500);
+            }, 5000);
+        }
+
+        // Fungsi untuk mengupdate timer
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timeUp();
+                return;
+            }
+            
+            timeLeft--;
+            localStorage.setItem('quizTimeLeftAuto', timeLeft);
+            
+            // Update display
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const timerDisplay = document.getElementById('timerDisplay');
+            const timerNotice = document.getElementById('timerNotice');
+            
+            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timerDisplay.textContent = timeString;
+            timerNotice.textContent = timeString;
+            
+            // Update warna timer
+            if (timeLeft <= 300) { // 5 menit terakhir
+                timerDisplay.className = 'timer danger';
+            } else if (timeLeft <= 600) { // 10 menit terakhir
+                timerDisplay.className = 'timer warning';
+            } else {
+                timerDisplay.className = 'timer';
+            }
+            
+            // Update notifikasi waktu kritis
+            if (timeLeft === 300) {
+                showCriticalTimeAlert('⏰ PERHATIAN! 5 MENIT LAGI WAKTU HABIS!');
+            } else if (timeLeft === 60) {
+                showCriticalTimeAlert('⏰ WASPADA! 1 MENIT LAGI WAKTU HABIS!');
+            }
+        }
+
+        // Fungsi untuk menampilkan alert waktu kritis
+        function showCriticalTimeAlert(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #ff4757;
+                color: white;
+                padding: 20px 40px;
+                border-radius: 15px;
+                font-weight: bold;
+                font-size: 18px;
+                z-index: 3000;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                animation: criticalAlert 0.5s;
+            `;
+            
+            alertDiv.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 24px;">⚠️</span>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(alertDiv);
+                }, 500);
+            }, 3000);
+        }
+
+        // Fungsi saat waktu habis
+        function timeUp() {
+            clearInterval(timerInterval);
+            localStorage.removeItem('quizTimeLeftAuto');
+            localStorage.removeItem('quizStartTime');
+            document.getElementById('timeUpModal').style.display = 'flex';
+            
+            // Nonaktifkan semua pilihan
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+                option.style.opacity = '0.6';
+            });
+            
+            // Nonaktifkan tombol navigasi
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.disabled = true;
+            });
+            
+            // Kumpulkan quiz otomatis setelah 3 detik
+            setTimeout(autoSubmitQuiz, 3000);
+        }
+
+        // Fungsi auto submit saat waktu habis
+        function autoSubmitQuiz() {
+            document.getElementById('timeUpModal').style.display = 'none';
+            checkAnswers();
+        }
+
+        // =================== FUNGSI QUIZ ===================
+
+        // Fungsi untuk membuat quiz
+        function createQuiz(page = 1) {
+            currentPage = page;
+            const quizContainer = document.getElementById('quizContainer');
+            quizContainer.innerHTML = '';
+            
+            const startIndex = (page - 1) * questionsPerPage;
+            const endIndex = Math.min(startIndex + questionsPerPage, quizData.length);
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const questionData = quizData[i];
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question-card';
+                questionElement.id = `question-${i}`;
+                
+                const questionHeader = document.createElement('div');
+                questionHeader.className = 'question-header';
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                questionNumber.textContent = i + 1;
+                
+                const questionMeta = document.createElement('div');
+                questionMeta.className = 'question-meta';
+                
+                const categoryBadge = document.createElement('span');
+                categoryBadge.className = 'question-category';
+                categoryBadge.textContent = questionData.category;
+                
+                questionMeta.appendChild(categoryBadge);
+                questionHeader.appendChild(questionNumber);
+                questionHeader.appendChild(questionMeta);
+                
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = questionData.question;
+                
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options';
+                
+                questionData.options.forEach((option, optionIndex) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'option';
+                    if (userAnswers[i] === optionIndex) {
+                        optionElement.classList.add('selected');
+                    }
+                    optionElement.dataset.questionIndex = i;
+                    optionElement.dataset.optionIndex = optionIndex;
+                    
+                    const optionLabel = document.createElement('div');
+                    optionLabel.className = 'option-label';
+                    optionLabel.textContent = String.fromCharCode(65 + optionIndex);
+                    
+                    const optionText = document.createElement('div');
+                    optionText.className = 'option-text';
+                    optionText.textContent = option;
+                    
+                    optionElement.appendChild(optionLabel);
+                    optionElement.appendChild(optionText);
+                    
+                    optionElement.addEventListener('click', () => {
+                        selectAnswer(i, optionIndex);
+                        // Aktifkan tombol WhatsApp setelah menjawab
+                        document.getElementById('whatsappBtn').disabled = false;
+                    });
+                    
+                    optionsContainer.appendChild(optionElement);
+                });
+                
+                questionElement.appendChild(questionHeader);
+                questionElement.appendChild(questionText);
+                questionElement.appendChild(optionsContainer);
+                
+                quizContainer.appendChild(questionElement);
+            }
+            
+            updatePageInfo();
+            updateNavButtons();
+        }
+
+        function updatePageInfo() {
+            document.getElementById('pageInfo').textContent = `Halaman ${currentPage} dari ${totalPages}`;
+            document.getElementById('pageInfo2').textContent = `Halaman ${currentPage} dari ${totalPages}`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevPageBtn').disabled = currentPage === 1;
+            document.getElementById('prevPageBtn2').disabled = currentPage === 1;
+            document.getElementById('nextPageBtn').disabled = currentPage === totalPages;
+            document.getElementById('nextPageBtn2').disabled = currentPage === totalPages;
+        }
+
+        function selectAnswer(questionIndex, optionIndex) {
+            if (quizSubmitted || timeLeft <= 0) return;
+            
+            userAnswers[questionIndex] = optionIndex;
+            
+            const questionElement = document.getElementById(`question-${questionIndex}`);
+            const options = questionElement.querySelectorAll('.option');
+            
+            options.forEach((option, idx) => {
+                if (idx === optionIndex) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+        }
+
+        // Fungsi untuk menghitung statistik
+        function calculateSubjectStats() {
+            const stats = {
+                'Fisika': { total: 0, correct: 0, color: '#FF6B6B' },
+                'Matematika': { total: 0, correct: 0, color: '#4ECDC4' },
+                'IPS': { total: 0, correct: 0, color: '#FFD166' },
+                'Bahasa Inggris': { total: 0, correct: 0, color: '#06D6A0' },
+                'Bahasa Indonesia': { total: 0, correct: 0, color: '#118AB2' }
+            };
+            
+            quizData.forEach((question, index) => {
+                const subject = question.category;
+                stats[subject].total++;
+                
+                if (userAnswers[index] === question.correctAnswer) {
+                    stats[subject].correct++;
+                }
+            });
+            
+            return stats;
+        }
+
+        // Fungsi untuk menampilkan statistik
+        function displaySubjectStats() {
+            const stats = calculateSubjectStats();
+            const container = document.getElementById('subjectStats');
+            container.innerHTML = '';
+            
+            Object.keys(stats).forEach(subject => {
+                const stat = stats[subject];
+                const percentage = stat.total > 0 ? (stat.correct / stat.total * 100).toFixed(1) : 0;
+                
+                const statElement = document.createElement('div');
+                statElement.className = 'subject-stat-card';
+                statElement.style.borderTopColor = stat.color;
+                
+                statElement.innerHTML = `
+                    <h4>${subject}</h4>
+                    <div class="score">${stat.correct}/${stat.total}</div>
+                    <small>${percentage}%</small>
+                `;
+                
+                container.appendChild(statElement);
+            });
+        }
+
+        // Fungsi untuk membuat pesan WhatsApp
+        function generateWhatsAppMessage(correctCount, percentage) {
+            const studentName = document.getElementById('studentName').value || "Tidak diisi";
+            const studentClass = document.getElementById('studentClass').value || "Tidak diisi";
+            const studentNumber = document.getElementById('studentNumber').value || "Tidak diisi";
+            
+            const stats = calculateSubjectStats();
+            const nilai = (correctCount * 2).toFixed(1);
+            
+            // Hitung waktu pengerjaan
+            const timeUsed = totalTime - timeLeft;
+            const minutesUsed = Math.floor(timeUsed / 60);
+            const secondsUsed = timeUsed % 60;
+            
+            let message = `*📱 HASIL QUIZ 50 SOAL*\n`;
+            message += `*=========================*\n\n`;
+            
+            message += `*👤 DATA SISWA:*\n`;
+            message += `Nama: ${studentName}\n`;
+            message += `Kelas: ${studentClass}\n`;
+            message += `Absen: ${studentNumber}\n`;
+            message += `Tanggal: ${document.getElementById('studentDate').value}\n`;
+            message += `Waktu Digunakan: ${minutesUsed} menit ${secondsUsed} detik\n`;
+            message += `Waktu Tersisa: ${Math.floor(timeLeft/60)}:${(timeLeft%60).toString().padStart(2,'0')}\n\n`;
+            
+            message += `*🏆 HASIL AKHIR:*\n`;
+            message += `✅ Skor: ${correctCount}/50\n`;
+            message += `📊 Persentase: ${percentage.toFixed(1)}%\n`;
+            message += `🎯 Nilai: ${nilai}/100\n\n`;
+            
+            message += `*📚 STATISTIK PER MAPEL:*\n`;
+            message += `• Fisika: ${stats['Fisika'].correct}/10\n`;
+            message += `• Matematika: ${stats['Matematika'].correct}/10\n`;
+            message += `• IPS: ${stats['IPS'].correct}/10\n`;
+            message += `• B. Inggris: ${stats['Bahasa Inggris'].correct}/10\n`;
+            message += `• B. Indonesia: ${stats['Bahasa Indonesia'].correct}/10\n\n`;
+            
+            message += `*⏰ WAKTU PENGERJAAN:*\n`;
+            message += `Dimulai: ${startTime.toLocaleTimeString()}\n`;
+            message += `Selesai: ${new Date().toLocaleTimeString()}\n`;
+            message += `Durasi: ${minutesUsed} menit ${secondsUsed} detik\n\n`;
+            
+            message += `_Quiz dikerjakan melalui aplikasi Quiz Online_\n`;
+            message += `_Dikirim ke WhatsApp ${whatsappName} (${whatsappNumber})_`;
+            
+            return message;
+        }
+
+        // Fungsi untuk mengirim ke WhatsApp
+        function sendToWhatsApp() {
+            const studentName = document.getElementById('studentName').value;
+            const studentClass = document.getElementById('studentClass').value;
+            
+            if (!studentName || !studentClass) {
+                alert('Harap isi Nama Lengkap dan Kelas Anda terlebih dahulu!');
+                return;
+            }
+            
+            const correctCount = userAnswers.filter((answer, index) => 
+                answer === quizData[index].correctAnswer
+            ).length;
+            const percentage = (correctCount / quizData.length) * 100;
+            
+            const message = generateWhatsAppMessage(correctCount, percentage);
+            const encodedMessage = encodeURIComponent(message);
+            
+            // URL WhatsApp
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappURL, '_blank');
+            
+            // Simpan pesan di textarea
+            document.getElementById('whatsappMessage').value = message;
+        }
+
+        // Fungsi untuk copy pesan WhatsApp
+        function copyWhatsAppMessage() {
+            const textarea = document.getElementById('whatsappMessage');
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            
+            // Tampilkan feedback
+            const button = event.target.closest('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span>✓</span> Disalin!';
+            button.style.background = '#25D366';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = '#0088cc';
+            }, 2000);
+        }
+
+        // Fungsi untuk memeriksa jawaban
+        function checkAnswers() {
+            const studentName = document.getElementById('studentName').value;
+            const studentClass = document.getElementById('studentClass').value;
+            
+            if (!studentName || !studentClass) {
+                alert('Harap isi Nama Lengkap dan Kelas Anda terlebih dahulu!');
+                return;
+            }
+            
+            // Hentikan timer
+            clearInterval(timerInterval);
+            localStorage.removeItem('quizTimeLeftAuto');
+            localStorage.removeItem('quizStartTime');
+            endTime = new Date();
+            
+            quizSubmitted = true;
+            let correctCount = 0;
+            
+            // Hitung jawaban benar
+            for (let i = 0; i < quizData.length; i++) {
+                const questionData = quizData[i];
+                const userAnswer = userAnswers[i];
+                
+                if (userAnswer !== null && userAnswer === questionData.correctAnswer) {
+                    correctCount++;
+                }
+            }
+            
+            // Tampilkan hasil
+            showResults(correctCount);
+        }
+
+        // Fungsi untuk menampilkan hasil
+        function showResults(correctCount) {
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const scoreDetails = document.getElementById('scoreDetails');
+            const progressFill = document.getElementById('progressFill');
+            const resultsSection = document.getElementById('resultsSection');
+            const timeTakenDisplay = document.getElementById('timeTaken');
+            
+            // Hitung waktu pengerjaan
+            const timeUsed = totalTime - timeLeft;
+            const minutesUsed = Math.floor(timeUsed / 60);
+            const secondsUsed = timeUsed % 60;
+            
+            // Hitung skor
+            const score = correctCount * 20;
+            const percentage = (correctCount / quizData.length) * 100;
+            const nilai = (correctCount * 2).toFixed(1);
+            
+            scoreDisplay.textContent = `${score}/1000`;
+            scoreDetails.textContent = `Skor: ${correctCount}/${quizData.length} soal | Persentase: ${percentage.toFixed(1)}% | Nilai: ${nilai}`;
+            timeTakenDisplay.textContent = `${minutesUsed} menit ${secondsUsed} detik`;
+            
+            // Update progress bar
+            progressFill.style.width = `${percentage}%`;
+            
+            // Tampilkan statistik
+            displaySubjectStats();
+            
+            // Generate pesan WhatsApp
+            const whatsappMessage = generateWhatsAppMessage(correctCount, percentage);
+            document.getElementById('whatsappMessage').value = whatsappMessage;
+            
+            // Tampilkan container hasil
+            resultsSection.style.display = 'block';
+            
+            // Scroll ke hasil
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Aktifkan tombol WhatsApp
+            document.getElementById('whatsappBtn').disabled = false;
+        }
+
+        // Fungsi untuk mereset quiz
+        function resetQuiz() {
+            if (confirm("Apakah Anda yakin ingin mengulang quiz? Semua jawaban dan waktu akan direset. Timer akan mulai kembali dari 60 menit.")) {
+                // Reset variabel
+                userAnswers = new Array(quizData.length).fill(null);
+                quizSubmitted = false;
+                quizStarted = true;
+                timeLeft = totalTime;
+                startTime = new Date();
+                endTime = null;
+                
+                // Hentikan timer
+                clearInterval(timerInterval);
+                localStorage.removeItem('quizTimeLeftAuto');
+                localStorage.removeItem('quizStartTime');
+                
+                // Reset timer display
+                document.getElementById('timerDisplay').textContent = '60:00';
+                document.getElementById('timerDisplay').className = 'timer';
+                document.getElementById('timerNotice').textContent = '60:00';
+                
+                // Sembunyikan hasil
+                document.getElementById('resultsSection').style.display = 'none';
+                
+                // Acak ulang soal
+                shuffleArray(quizData);
+                
+                // Buat quiz ulang
+                createQuiz(1);
+                
+                // Nonaktifkan tombol WhatsApp
+                document.getElementById('whatsappBtn').disabled = true;
+                
+                // Tutup modal jika terbuka
+                document.getElementById('timeUpModal').style.display = 'none';
+                
+                // Mulai timer lagi
+                startTimerAuto();
+                
+                // Tampilkan notifikasi reset
+                const resetAlert = document.createElement('div');
+                resetAlert.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: #25D366;
+                    color: white;
+                    padding: 20px 40px;
+                    border-radius: 15px;
+                    font-weight: bold;
+                    font-size: 18px;
+                    z-index: 3000;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                `;
+                resetAlert.textContent = '🔄 Timer direset ke 60:00!';
+                document.body.appendChild(resetAlert);
+                
+                setTimeout(() => {
+                    resetAlert.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(resetAlert);
+                    }, 500);
+                }, 2000);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('submitBtn').addEventListener('click', checkAnswers);
+        document.getElementById('whatsappBtn').addEventListener('click', sendToWhatsApp);
+        document.getElementById('resetBtn').addEventListener('click', resetQuiz);
+        document.getElementById('sendWhatsAppBtn').addEventListener('click', sendToWhatsApp);
+        document.getElementById('copyWhatsAppBtn').addEventListener('click', copyWhatsAppMessage);
+        
+        document.getElementById('prevPageBtn').addEventListener('click', () => {
+            if (currentPage > 1) {
+                createQuiz(currentPage - 1);
+                window.scrollTo({ top: document.querySelector('.quiz-container').offsetTop - 100, behavior: 'smooth' });
+            }
+        });
+
+        document.getElementById('nextPageBtn').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                createQuiz(currentPage + 1);
+                window.scrollTo({ top: document.querySelector('.quiz-container').offsetTop - 100, behavior: 'smooth' });
+            }
+        });
+
+        document.getElementById('prevPageBtn2').addEventListener('click', () => {
+            if (currentPage > 1) {
+                createQuiz(currentPage - 1);
+                window.scrollTo({ top: document.querySelector('.quiz-container').offsetTop - 100, behavior: 'smooth' });
+            }
+        });
+
+        document.getElementById('nextPageBtn2').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                createQuiz(currentPage + 1);
+                window.scrollTo({ top: document.querySelector('.quiz-container').offsetTop - 100, behavior: 'smooth' });
+            }
+        });
+
+        // Inisialisasi quiz
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set tanggal otomatis
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('studentDate').value = formattedDate;
+            
+            // Acak soal
+            shuffleArray(quizData);
+            
+            // Buat quiz
+            createQuiz(1);
+            
+            // Update info
+            document.getElementById('totalQuestions').textContent = `${quizData.length} Soal`;
+            document.getElementById('maxScore').textContent = `${quizData.length * 20} Poin`;
+            
+            // MULAI TIMER OTOMATIS SAAT HALAMAN DIMUAT
+            startTimerAuto();
+            
+            // Tampilkan alert timer berjalan
+            setTimeout(() => {
+                const startAlert = document.createElement('div');
+                startAlert.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: #25D366;
+                    color: white;
+                    padding: 25px 50px;
+                    border-radius: 20px;
+                    font-weight: bold;
+                    font-size: 22px;
+                    z-index: 3000;
+                    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+                    text-align: center;
+                `;
+                startAlert.innerHTML = `
+                    <div style="font-size: 40px; margin-bottom: 10px;">⏰</div>
+                    <div>TIMER 60 MENIT DIMULAI!</div>
+                    <div style="font-size: 16px; margin-top: 10px; opacity: 0.9;">Waktu terus berkurang, kerjakan dengan cepat!</div>
+                `;
+                document.body.appendChild(startAlert);
+                
+                setTimeout(() => {
+                    startAlert.style.opacity = '0';
+                    startAlert.style.transform = 'translate(-50%, -50%) scale(0.9)';
+                    setTimeout(() => {
+                        document.body.removeChild(startAlert);
+                    }, 500);
+                }, 3000);
+            }, 1000);
+        });
+
+        // Hapus timer saat halaman ditutup
+        window.addEventListener('beforeunload', (e) => {
+            if (!quizSubmitted && timeLeft > 0) {
+                e.preventDefault();
+                e.returnValue = 'Timer quiz masih berjalan. Apakah Anda yakin ingin meninggalkan halaman?';
+                return 'Timer quiz masih berjalan. Apakah Anda yakin ingin meninggalkan halaman?';
+            }
+        });
+    </script>
+</body>
+</html>
